@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Book Appointment – Wet & Dry Limited</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #1a5fa8;
+      --primary-dark: #0d4080;
+      --primary-light: #e8f0fb;
+      --secondary: #1a9df4;
+      --text: #1c1c1c;
+      --text-muted: #6b7280;
+      --border: #e0e4eb;
+      --bg: #f7f8fc;
+      --white: #ffffff;
+      --success: #2d7a3a;
+      --success-light: #eaf3ec;
+      --danger: #c0392b;
+      --radius: 10px;
+      --shadow: 0 2px 16px rgba(26,95,168,0.07);
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Topbar ── */
+    .topbar {
+      background: var(--primary);
+      color: #fff;
+      font-size: 13px;
+      padding: 8px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .topbar a { color: rgba(255,255,255,0.85); text-decoration: none; margin-right: 20px; }
+    .topbar a i { margin-right: 5px; }
+
+    /* ── Navbar ── */
+    .navbar {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 32px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .brand { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--primary); text-decoration: none; font-weight: 600; }
+    .brand span { color: var(--secondary); }
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 14px; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+    .btn-book { background: var(--secondary); color: var(--white); border: none; border-radius: 6px; padding: 10px 22px; font-size: 14px; font-weight: 700; cursor: pointer; text-decoration: none; }
+    .btn-book:hover { background: #0476f8; }
+
+    /* ── Hero Banner ── */
+    .hero-banner {
+      background: linear-gradient(135deg, var(--primary-dark) 60%, var(--primary) 100%);
+      color: #fff;
+      text-align: center;
+      padding: 56px 24px 48px;
+    }
+    .hero-banner .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 16px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+    .hero-banner h1 { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 600; margin-bottom: 10px; }
+    .hero-banner p { font-size: 16px; color: rgba(255,255,255,0.8); max-width: 520px; margin: 0 auto; }
+
+    /* ── Contact strip ── */
+    .contact-strip {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      padding: 14px 24px;
+      font-size: 13px;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+    }
+    .contact-strip span i { color: var(--primary); margin-right: 6px; }
+
+    /* ── Main layout ── */
+    .main {
+      max-width: 780px;
+      margin: 40px auto 60px;
+      padding: 0 20px;
+    }
+
+    /* ── Section card ── */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 28px 24px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+    }
+    .card-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-title i { font-size: 13px; }
+
+    /* ── Service cards ── */
+    .service-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .service-card {
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: border-color 0.18s, background 0.18s;
+    }
+    .service-card:hover { border-color: var(--primary); background: var(--primary-light); }
+    .service-card.selected { border-color: var(--primary); background: var(--primary-light); }
+    .service-card .s-icon { font-size: 20px; color: var(--primary); margin-bottom: 6px; }
+    .service-card .s-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+    .service-card .s-desc { font-size: 12px; color: var(--text-muted); }
+
+    /* ── Form fields ── */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+    .field:last-child { margin-bottom: 0; }
+    label { font-size: 13px; font-weight: 500; color: var(--text-muted); }
+    .req { color: var(--danger); }
+    input, select, textarea {
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 10px 13px;
+      width: 100%;
+      outline: none;
+      transition: border 0.15s, box-shadow 0.15s;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(26,95,168,0.12);
+      background: #fff;
+    }
+    textarea { resize: vertical; min-height: 90px; }
+
+    /* ── Time slots ── */
+    .time-slots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .slot {
+      border: 1.5px solid var(--border);
+      border-radius: 7px;
+      padding: 10px 6px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .slot:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+    .slot.selected { border-color: var(--primary); background: var(--primary); color: #fff; }
+    .slot.unavailable { opacity: 0.35; cursor: not-allowed; background: #f0f0f0; }
+    .slot .slot-note { display: block; font-size: 10px; font-weight: 400; margin-top: 2px; }
+
+    /* ── Submit ── */
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      letter-spacing: 0.02em;
+    }
+    .submit-btn:hover { background: var(--primary-dark); }
+    .submit-btn:active { transform: scale(0.99); }
+
+    .error-msg {
+      color: var(--danger);
+      font-size: 13px;
+      margin-bottom: 12px;
+      display: none;
+      padding: 10px 14px;
+      background: #fdf0ef;
+      border-radius: 6px;
+      border-left: 3px solid var(--danger);
+    }
+
+    .footer-note {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 12px;
+    }
+
+    /* ── Success screen ── */
+    #success-view { display: none; }
+    .success-wrap {
+      text-align: center;
+      padding: 20px 0 10px;
+    }
+    .success-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--success-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 28px;
+      color: var(--success);
+    }
+    .success-wrap h2 { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--text); margin-bottom: 8px; }
+    .success-wrap p { font-size: 15px; color: var(--text-muted); margin-bottom: 24px; }
+    .summary-box {
+      background: var(--bg);
+      border-radius: 8px;
+      padding: 16px 20px;
+      text-align: left;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .summary-row:last-child { border-bottom: none; }
+    .summary-row .sr-label { color: var(--text-muted); }
+    .summary-row .sr-value { font-weight: 700; color: var(--text); }
+
+    /* ── Hamburger ── */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--primary);
+      border-radius: 2px;
+      transition: all 0.25s;
+    }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      /* Topbar: hide on small screens */
+      .topbar { display: none; }
+
+      /* Navbar */
+      .navbar { padding: 12px 16px; flex-wrap: wrap; }
+      .nav-toggle { display: flex; }
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        gap: 0;
+        padding: 8px 0 4px;
+        border-top: 1px solid var(--border);
+        margin-top: 10px;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a {
+        padding: 11px 4px;
+        border-bottom: 1px solid var(--border);
+        font-size: 15px;
+      }
+      .nav-links a:last-child { border-bottom: none; }
+      .btn-book {
+        display: block;
+        margin-top: 10px;
+        text-align: center;
+        padding: 12px;
+        border-radius: 7px;
+      }
+
+      /* Hero */
+      .hero-banner { padding: 36px 16px 32px; }
+      .hero-banner h1 { font-size: 26px; }
+      .hero-banner p { font-size: 14px; }
+
+      /* Contact strip */
+      .contact-strip { gap: 10px; padding: 10px 16px; font-size: 12px; flex-direction: column; align-items: center; text-align: center; }
+
+      /* Main */
+      .main { margin: 20px auto 40px; padding: 0 12px; }
+
+      /* Cards */
+      .card { padding: 18px 14px 16px; margin-bottom: 14px; }
+
+      /* Grids → single column */
+      .grid-2 { grid-template-columns: 1fr; gap: 0; }
+      .service-grid { grid-template-columns: 1fr; gap: 10px; }
+
+      /* Service cards: horizontal layout on mobile */
+      .service-card { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; }
+      .service-card .s-icon { font-size: 22px; margin-bottom: 0; flex-shrink: 0; }
+
+      /* Time slots: 2 columns */
+      .time-slots { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .slot { font-size: 12px; padding: 10px 4px; }
+
+      /* Input sizing for thumb-friendliness */
+      input, select, textarea { font-size: 16px; padding: 12px 13px; }
+
+      /* Submit button */
+      .submit-btn { font-size: 15px; padding: 14px; }
+
+      /* Footer note wraps gracefully */
+      .footer-note { font-size: 11px; line-height: 1.8; }
+
+      /* Success screen */
+      .success-wrap h2 { font-size: 22px; }
+    }
+
+    @media (max-width: 400px) {
+      .hero-banner h1 { font-size: 22px; }
+      .time-slots { grid-template-columns: repeat(2, 1fr); }
+      .card { padding: 14px 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div>
+      <a href="#"><i class="fas fa-map-marker-alt"></i>Plot 2, Katampe Rd, Abuja</a>
+      <a href="tel:+2347079865186"><i class="fas fa-phone-alt"></i>+234 707 986 5186</a>
+      <a href="mailto:info@example.com"><i class="fas fa-envelope"></i>info@example.com</a>
+    </div>
+    <div>
+      <a href="#"><i class="fas fa-clock"></i>Mon – Sat: 8:00 – 17:30</a>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a class="brand" href="index.html">Wet<span>&</span>Dry</a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="service.html">Services</a>
+      <a href="contact.html">Contact</a>
+      <a class="btn-book" href="#">Book</a>
+    </div>
+  </nav>
+
+  <!-- Hero Banner -->
+  <div class="hero-banner">
+    <div class="badge">Wet & Dry Limited &mdash; Abuja</div>
+    <h1>Book an Appointment</h1>
+    <p>Schedule a consultation or site visit with our expert concrete and construction team.</p>
+  </div>
+
+  <!-- Contact Strip -->
+  <div class="contact-strip">
+    <span><i class="fas fa-map-marker-alt"></i>Plot 2, Katampe Rd, District, Abuja</span>
+    <span><i class="fas fa-phone-alt"></i>+234 707 986 5186</span>
+    <span><i class="fas fa-clock"></i>Mon – Sat, 8:00 AM – 5:30 PM</span>
+  </div>
+
+  <!-- Main Form -->
+  <div class="main">
+
+    <!-- FORM VIEW -->
+    <div id="form-view">
+
+      <!-- Service Selection -->
+      <div class="card">
+        <div class="card-title"><i class="fas fa-th-large"></i> Choose a Service</div>
+        <div class="service-grid" id="services">
+          <div class="service-card" data-service="Ready-Mix Concrete Supply">
+            <div class="s-icon"><i class="fas fa-industry"></i></div>
+            <div class="s-title">Ready-Mix Concrete Supply</div>
+            <div class="s-desc">Bulk concrete delivery to your site</div>
+          </div>
+          <div class="service-card" data-service="Site Assessment">
+            <div class="s-icon"><i class="fas fa-hard-hat"></i></div>
+            <div class="s-title">Site Assessment</div>
+            <div class="s-desc">Expert evaluation of your project site</div>
+          </div>
+          <div class="service-card" data-service="Project Consultation">
+            <div class="s-icon"><i class="fas fa-comments"></i></div>
+            <div class="s-title">Project Consultation</div>
+            <div class="s-desc">Discuss your construction requirements</div>
+          </div>
+          <div class="service-card" data-service="Mix Design & Testing">
+            <div class="s-icon"><i class="fas fa-flask"></i></div>
+            <div class="s-title">Mix Design & Testing</div>
+            <div class="s-desc">Custom concrete spec and quality tests</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Personal Details -->
+      <div class="card">
+        <div class="card-title"><i class="fas fa-user"></i> Your Details</div>
+        <div class="grid-2">
+          <div class="field">
+            <label>First Name <span class="req">*</span></label>
+            <input type="text" id="fname" placeholder="e.g. Emeka">
+          </div>
+          <div class="field">
+            <label>Last Name <span class="req">*</span></label>
+            <input type="text" id="lname" placeholder="e.g. Okafor">
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label>Phone Number <span class="req">*</span></label>
+            <input type="tel" id="phone" placeholder="+234 xxx xxx xxxx">
+          </div>
+          <div class="field">
+            <label>Email Address</label>
+            <input type="email" id="email" placeholder="you@example.com">
+          </div>
+        </div>
+        <div class="field">
+          <label>Company / Organisation</label>
+          <input type="text" id="company" placeholder="Optional">
+        </div>
+      </div>
+
+      <!-- Date & Time -->
+      <div class="card">
+        <div class="card-title"><i class="fas fa-calendar-alt"></i> Preferred Date &amp; Time</div>
+        <div class="grid-2" style="margin-bottom: 20px;">
+          <div class="field" style="margin-bottom:0;">
+            <label>Date <span class="req">*</span></label>
+            <input type="date" id="appt-date">
+          </div>
+          <div class="field" style="margin-bottom:0;">
+            <label>Project Location</label>
+            <input type="text" id="location" placeholder="Area / LGA in Abuja">
+          </div>
+        </div>
+        <div class="card-title" style="margin-bottom: 12px;"><i class="fas fa-clock"></i> Available Time Slots</div>
+        <div class="time-slots" id="slots">
+          <div class="slot" data-time="8:00 AM">8:00 AM</div>
+          <div class="slot" data-time="9:30 AM">9:30 AM</div>
+          <div class="slot" data-time="11:00 AM">11:00 AM</div>
+          <div class="slot unavailable" data-time="12:30 PM">12:30 PM<span class="slot-note">Booked</span></div>
+          <div class="slot" data-time="2:00 PM">2:00 PM</div>
+          <div class="slot" data-time="3:30 PM">3:30 PM</div>
+          <div class="slot unavailable" data-time="4:30 PM">4:30 PM<span class="slot-note">Booked</span></div>
+          <div class="slot" data-time="5:00 PM">5:00 PM</div>
+        </div>
+      </div>
+
+      <!-- Project Details -->
+      <div class="card">
+        <div class="card-title"><i class="fas fa-clipboard-list"></i> Project Details</div>
+        <div class="grid-2">
+          <div class="field">
+            <label>Project Type</label>
+            <select id="proj-type">
+              <option value="">Select type</option>
+              <option>Residential Building</option>
+              <option>Commercial Building</option>
+              <option>Road / Infrastructure</option>
+              <option>Industrial</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Estimated Concrete Volume</label>
+            <select id="volume">
+              <option value="">Select range</option>
+              <option>Under 10 m³</option>
+              <option>10 – 50 m³</option>
+              <option>50 – 200 m³</option>
+              <option>200 – 500 m³</option>
+              <option>500 m³ and above</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Additional Notes</label>
+          <textarea id="notes" placeholder="Tell us more about your project, timeline, or any special requirements..."></textarea>
+        </div>
+      </div>
+
+      <div class="error-msg" id="error-msg">
+        <i class="fas fa-exclamation-circle"></i> Please fill in all required fields and select a service, date, and time slot.
+      </div>
+      <button class="submit-btn" onclick="submitForm()">
+        <i class="fas fa-calendar-check" style="margin-right:8px;"></i>Book Appointment
+      </button>
+      <p class="footer-note" style="margin-top:14px;">
+        Mon – Sat 8:00 – 17:30 &nbsp;&bull;&nbsp; Plot 2, Katampe Rd, Abuja &nbsp;&bull;&nbsp; +234 707 986 5186
+      </p>
+    </div>
+
+    <!-- SUCCESS VIEW -->
+    <div id="success-view">
+      <div class="card">
+        <div class="success-wrap">
+          <div class="success-icon"><i class="fas fa-check"></i></div>
+          <h2>Appointment Requested!</h2>
+          <p>Thank you. Our team will confirm your booking within 24 hours via phone or email.</p>
+          <div class="summary-box" id="summary-box"></div>
+          <button class="submit-btn" onclick="resetForm()" style="max-width:320px;margin:0 auto;">
+            <i class="fas fa-plus" style="margin-right:8px;"></i>Book Another Appointment
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /.main -->
+
+  <!-- Footer -->
+  <div style="background:#0d2d54; color:#fff; padding: 40px 24px 24px; margin-top: 20px;">
+    <div style="max-width:900px; margin:0 auto; display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:32px;">
+      <div>
+        <div style="font-family:'Playfair Display',serif; font-size:22px; font-weight:600; margin-bottom:10px;">Wet<span style="color:#1a79f4e1;">&</span>Dry</div>
+        <p style="font-size:13px; color:rgba(255,255,255,0.65);">Building the future with concrete evidence. Based in Abuja, Nigeria.</p>
+      </div>
+      <div>
+        <div style="font-size:12px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#1a79f4e1; margin-bottom:12px;">Quick Links</div>
+        <div style="display:flex; flex-direction:column; gap:8px; font-size:13px;">
+          <a href="index.html" style="color:rgba(255,255,255,0.75); text-decoration:none;">Home</a>
+          <a href="about.html" style="color:rgba(255,255,255,0.75); text-decoration:none;">About Us</a>
+          <a href="service.html" style="color:rgba(255,255,255,0.75); text-decoration:none;">Services</a>
+          <a href="contact.html" style="color:rgba(255,255,255,0.75); text-decoration:none;">Contact</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#1a79f4e1; margin-bottom:12px;">Contact</div>
+        <div style="font-size:13px; color:rgba(255,255,255,0.75); display:flex; flex-direction:column; gap:8px;">
+          <span><i class="fas fa-map-marker-alt" style="margin-right:6px;color:#1a79f4e1;"></i>Plot 2, Katampe Rd, Abuja</span>
+          <span><i class="fas fa-phone-alt" style="margin-right:6px;color:#1a79f4e1;"></i>+234 707 986 5186</span>
+          <span><i class="fas fa-envelope" style="margin-right:6px;color:#1a79f4e1;"></i>info@example.com</span>
+        </div>
+      </div>
+    </div>
+    <div style="max-width:900px; margin:24px auto 0; border-top:1px solid rgba(255,255,255,0.1); padding-top:16px; font-size:12px; color:rgba(255,255,255,0.45); text-align:center;">
+      &copy; 2025 Wet &amp; Dry Limited. All rights reserved.
+    </div>
+  </div>
+
+  <script>
+    let selectedService = null;
+    let selectedSlot = null;
+
+    // Service selection
+    document.querySelectorAll('.service-card').forEach(function(c) {
+      c.addEventListener('click', function() {
+        document.querySelectorAll('.service-card').forEach(function(x){ x.classList.remove('selected'); });
+        c.classList.add('selected');
+        selectedService = c.dataset.service;
+      });
+    });
+
+    // Time slot selection
+    document.querySelectorAll('.slot:not(.unavailable)').forEach(function(s) {
+      s.addEventListener('click', function() {
+        document.querySelectorAll('.slot').forEach(function(x){ x.classList.remove('selected'); });
+        s.classList.add('selected');
+        selectedSlot = s.dataset.time;
+      });
+    });
+
+    // Hamburger menu toggle
+    var navToggle = document.getElementById('nav-toggle');
+    var navLinks  = document.getElementById('nav-links');
+    navToggle.addEventListener('click', function() {
+      navToggle.classList.toggle('open');
+      navLinks.classList.toggle('open');
+    });
+
+    // Set min date to today
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementById('appt-date').setAttribute('min', today);
+
+    function submitForm() {
+      var fname = document.getElementById('fname').value.trim();
+      var lname = document.getElementById('lname').value.trim();
+      var phone = document.getElementById('phone').value.trim();
+      var date  = document.getElementById('appt-date').value;
+      var err   = document.getElementById('error-msg');
+
+      if (!fname || !lname || !phone || !date || !selectedService || !selectedSlot) {
+        err.style.display = 'block';
+        err.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+      err.style.display = 'none';
+
+      var d = new Date(date);
+      var formatted = d.toLocaleDateString('en-NG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+      var rows = [
+        ['Name', fname + ' ' + lname],
+        ['Phone', phone],
+        ['Service', selectedService],
+        ['Date', formatted],
+        ['Time', selectedSlot]
+      ];
+      var loc     = document.getElementById('location').value.trim();
+      var company = document.getElementById('company').value.trim();
+      var proj    = document.getElementById('proj-type').value;
+      var vol     = document.getElementById('volume').value;
+      if (loc)     rows.push(['Project Location', loc]);
+      if (company) rows.push(['Company', company]);
+      if (proj)    rows.push(['Project Type', proj]);
+      if (vol)     rows.push(['Concrete Volume', vol]);
+
+      document.getElementById('summary-box').innerHTML = rows.map(function(r) {
+        return '<div class="summary-row"><span class="sr-label">' + r[0] + '</span><span class="sr-value">' + r[1] + '</span></div>';
+      }).join('');
+
+      document.getElementById('form-view').style.display = 'none';
+      document.getElementById('success-view').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function resetForm() {
+      ['fname','lname','phone','email','company','appt-date','location','notes'].forEach(function(id){
+        document.getElementById(id).value = '';
+      });
+      document.getElementById('proj-type').value = '';
+      document.getElementById('volume').value = '';
+      document.querySelectorAll('.service-card').forEach(function(x){ x.classList.remove('selected'); });
+      document.querySelectorAll('.slot').forEach(function(x){ x.classList.remove('selected'); });
+      selectedService = null;
+      selectedSlot = null;
+      document.getElementById('form-view').style.display = 'block';
+      document.getElementById('success-view').style.display = 'none';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
